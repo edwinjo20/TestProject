@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- PHPUnit Configuration -->
+<phpunit
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
+    backupGlobals="false"
+    colors="true"
+    convertDeprecationsToExceptions="false"
+    bootstrap="tests/bootstrap.php"
+    stopOnFailure="false"
+    failOnWarning="false"
+    failOnRisky="false"
+>
+
+    <php>
+        <!-- ✅ Environment Variables -->
+        <env name="APP_ENV" value="test"/>
+        <env name="APP_DEBUG" value="1"/>
+        <env name="DATABASE_URL" value="mysql://root:@127.0.0.1:3306/edwincineconnect_test"/>
+        <env name="DOCTRINE_ORM_AUTO_RESTORE" value="0"/>
+        <env name="SYMFONY_DEPRECATIONS_HELPER" value="999999"/>
+
+        <!-- ✅ PHP INI Settings -->
+        <ini name="display_errors" value="1"/>
+        <ini name="error_reporting" value="-1"/>
+        <ini name="memory_limit" value="-1"/>
+    </php>
+
+    <testsuites>
+        <testsuite name="Project Test Suite">
+            <directory>tests</directory>
+        </testsuite>
+    </testsuites>
+
+    <coverage processUncoveredFiles="true">
+        <include>
+            <directory suffix=".php">src</directory>
+        </include>
+    </coverage>
+
+</phpunit>

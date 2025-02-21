@@ -1,0 +1,11 @@
+controllers:
+    resource:
+        path: ../src/Controller/
+        namespace: App\Controller
+    type: attribute
+images:
+    path: /uploads/images/{filename}
+    controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController::urlRedirectAction
+    defaults:
+        path: "%kernel.project_dir%/public/uploads/images/{filename}"
+        permanent: true

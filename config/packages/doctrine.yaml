@@ -1,0 +1,79 @@
+doctrine:
+    dbal:
+        # Database connection URL (defined in .env)
+        url: '%env(resolve:DATABASE_URL)%'
+
+        # Set the database server version (update according to your DBMS)
+        server_version: '16' # Example for PostgreSQL, use '8.0' for MySQL
+
+        # Enable debugging for profiling SQL queries (enabled in debug mode)
+        profiling_collect_backtrace: '%kernel.debug%'
+
+        # Enables the use of savepoints for nested transactions
+        use_savepoints: true
+
+    orm:
+        # Automatically generate proxy classes in dev mode
+        auto_generate_proxy_classes: '%kernel.debug%'
+        enable_lazy_ghost_objects: true
+
+        # Ensure fields are stored in the order they are declared
+        report_fields_where_declared: true
+
+        # Validate XML mapping (if applicable)
+        validate_xml_mapping: true
+
+        # Naming strategy for table/column names (uses snake_case)
+        naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
+
+        # Identity generation preference for PostgreSQL
+        identity_generation_preferences:
+            Doctrine\DBAL\Platforms\PostgreSQLPlatform: identity
+
+        # Automatically detect entity mappings
+        auto_mapping: true
+
+        mappings:
+            App:
+                type: attribute
+                is_bundle: false
+                dir: '%kernel.project_dir%/src/Entity'
+                prefix: 'App\Entity'
+                alias: App
+
+        # Disable auto-mapping for controllers to prevent conflicts
+        controller_resolver:
+            auto_mapping: false
+
+when@test:
+    doctrine:
+        dbal:
+            # # Use a separate test database
+            # dbname_suffix: '_test%env(default::TEST_TOKEN)%'
+
+when@prod:
+    doctrine:
+        dbal:
+            # Ensure the database connection uses production settings
+            server_version: '16' # Adjust according to your database version
+
+        orm:
+            # Disable proxy auto-generation in production
+            auto_generate_proxy_classes: false
+            proxy_dir: '%kernel.build_dir%/doctrine/orm/Proxies'
+
+            # Enable query and result caching for performance
+            query_cache_driver:
+                type: pool
+                pool: doctrine.system_cache_pool
+            result_cache_driver:
+                type: pool
+                pool: doctrine.result_cache_pool
+
+    framework:
+        cache:
+            pools:
+                doctrine.result_cache_pool:
+                    adapter: cache.app
+                doctrine.system_cache_pool:
+                    adapter: cache.system

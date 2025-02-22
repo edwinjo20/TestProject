@@ -1,4 +1,28 @@
-{{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+{{ form_start(form, {'attr': {'class': 'needs-validation', 'novalidate': 'true'}}) }}
+
+    <div class="card shadow-sm p-4 bg-dark text-light">
+        <div class="card-body">
+            {% for field in form %}
+                <div class="mb-3">
+                    {{ form_label(field, null, {'label_attr': {'class': 'form-label text-light'}}) }}
+                    {{ form_widget(field, {
+                        'attr': {'class': 
+                            field.vars.block_prefixes|last == 'checkbox' ? 'form-check-input' :
+                            field.vars.block_prefixes|last == 'textarea' ? 'form-control' :
+                            field.vars.block_prefixes|last == 'choice' ? 'form-select' :
+                            'form-control'
+                        }
+                    }) }}
+                    {{ form_errors(field) }}
+                </div>
+            {% endfor %}
+
+            <div class="mt-3 text-center">
+                <button class="btn btn-primary">
+                    <i class="fas fa-save"></i> {{ button_label|default('Save') }}
+                </button>
+            </div>
+        </div>
+    </div>
+
 {{ form_end(form) }}

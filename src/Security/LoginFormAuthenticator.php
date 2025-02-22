@@ -28,7 +28,6 @@ class LoginFormAuthenticator extends AbstractAuthenticator implements Authentica
     {
         $this->urlGenerator = $urlGenerator;
     }
-    
 
     public function supports(Request $request): ?bool
     {
